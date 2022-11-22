@@ -1,9 +1,14 @@
 # Data augmentation with Resizer network for Image Classification
-This repository contains the PyTorch implementation of the Resizer model proposed in the paper [Learning to Resize Images for Computer Vision Tasks](https://arxiv.org/abs/2103.09950). The model is tested on two datasets: `Imagenette` and `Imagewoof` using ResNet-50 as the baseline model. Check the accompanying [blog post](https://kushajveersingh.github.io/blog/data-augmentation-with-resizer-network-for-image-classification) for details on the model.
+This repository contains the PyTorch implementation of the Resizer model proposed in the paper [Learning to Resize Images for Computer Vision Tasks](https://arxiv.org/abs/2103.09950). The model is tested on `CIFAR-10` using ResNet-50, MobileNet-v2, Inception-v3 and DenseNet-121 as the baseline models. Check the accompanying [blog post](https://kushajveersingh.github.io/blog/data-augmentation-with-resizer-network-for-image-classification) for details on the model.
 
 In summary, a CNN model is used to learn data augmentation. The augmented image is passed to a standard image classification model (e.g. ResNet-50) for the downstream task (e.g. image classification).
 
-## Table of Contents
+## To retrain the models:
+```
+python run.py
+```
+Arguments are stored in the config_run.yaml file
+<!-- ## Table of Contents
 - [Results](#results)
 - [Details of config file](#details-of-config-file)
 - [Download datasets](#download-datasets)
@@ -12,11 +17,11 @@ In summary, a CNN model is used to learn data augmentation. The augmented image 
 - [Reproducing experiments](#reproducing-experiments)
 - [Repository structure](#repository-structure)
 - [Requirements](#requirements)
-- [License](#license)
+- [License](#license) -->
 
 ## Results
-
-<table style="text-align:center">
+[CIFAR-10 Training Results](https://www.notion.so/Resizer-f45093472d994577bb5ae6dceb17955e)
+<!-- <table style="text-align:center">
     <tr>
         <th style="text-align:center"> Dataset </th>
         <th style="text-align:center"> Model </th>
@@ -137,7 +142,7 @@ python trainer.py
         - [base_model.py](src/models/base_model.py) - It loads torchvision ResNet50 model which is used as the base model in this repo. You can specify your own base model here.
         - [\_\_init\_\_.py](src/models/__init__.py) - Provides a utility function `get_model` to load the above two models by providing the corresponding name (*resizer*, *base_model*)
     - [model.py](src/model.py) - Contains the code to create `pytorch_lightning.LightningModule`. This loads the above models and specifies the training/validation steps, optimizers, learning rate scheduler
-    - [trainer.py](src/trainer.py) - The main python script that you should call to train your models. It reads the arguments from [config.yaml](src/config.yaml) and does the specified training, while saving all the outputs to `outputs/{date}/{time}` directory.
+    - [trainer.py](src/trainer.py) - The main python script that you should call to train your models. It reads the arguments from [config.yaml](src/config.yaml) and does the specified training, while saving all the outputs to `outputs/{date}/{time}` directory. -->
 
 ## Requirements
 - Python = 3.8.8
