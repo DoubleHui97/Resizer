@@ -7,6 +7,7 @@ src/*
 *.txt
 download_data.sh
 test.py
+config_files/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
