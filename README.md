@@ -1,5 +1,5 @@
 # Data augmentation with Resizer network for Image Classification
-This README.md is modified based on https://github.com/KushajveerSingh/resize_network_cv.
+This README.md is modified based on https://github.com/KushajveerSingh/resize_network_cv. The resizing_model.py file is modified from https://github.com/KushajveerSingh/resize_network_cv, and the run.py file is modified from https://github.com/kuangliu/pytorch-cifar.
 
 This repository contains the PyTorch implementation of the Resizer model proposed in the paper [Learning to Resize Images for Computer Vision Tasks](https://arxiv.org/abs/2103.09950). The model is tested on `CIFAR-10` using ResNet-50, MobileNet-v2, Inception-v3 and DenseNet-121 as the baseline models. Check the accompanying [blog post](https://kushajveersingh.github.io/blog/data-augmentation-with-resizer-network-for-image-classification) for details on the model.
 
