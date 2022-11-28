@@ -1,7 +1,7 @@
 # Data augmentation with Resizer network for Image Classification
 This README.md and resizing_model.py are modified based on https://github.com/KushajveerSingh/resize_network_cv. The run.py file and the models directory are modified from https://github.com/kuangliu/pytorch-cifar.
 
-This repository contains the PyTorch implementation of the Resizer model proposed in the paper [Learning to Resize Images for Computer Vision Tasks](https://arxiv.org/abs/2103.09950). The model is tested on `CIFAR-10` using ResNet-50, MobileNet-v2, Inception-v3 and DenseNet-121 as the baseline models. Check the accompanying [blog post](https://kushajveersingh.github.io/blog/data-augmentation-with-resizer-network-for-image-classification) for details on the model.
+This repository contains the PyTorch implementation of the Resizer model proposed in the paper [Learning to Resize Images for Computer Vision Tasks](https://arxiv.org/abs/2103.09950). The model is tested on `CIFAR-10` using ResNet-50, MobileNet-v2, Inception-v3 and DenseNet-121 as the baseline models. Check the accompanying [blog post](https://kushajveersingh.github.io/blog/data-augmentation-with-resizer-network-for-image-classification) from Kushajveer Singh for details on the model.
 
 In summary, a CNN model is used to learn data augmentation. The augmented image is passed to a standard image classification model (e.g. ResNet-50) for the downstream task (e.g. image classification).
 
