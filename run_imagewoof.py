@@ -13,7 +13,7 @@ import torchvision.transforms as transforms
 import os, sys, time, random
 import argparse
 
-from models_imagenet import resnet#, densenet, googlenet, mobilenet
+# from models_imagenet import resnet#, densenet, googlenet, mobilenet
 from resizing_model import classification_model
 from utils import progress_bar
 
