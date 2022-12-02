@@ -1,0 +1,36 @@
+apply_resizer_model: false
+apply_oss_resizer: false
+oss_resizer:
+  interpolate_mode: bilinear
+
+resizer:
+  in_channels: 3
+  out_channels: 3
+  num_kernels: 16
+  num_resblocks: 2
+  negative_slope: 0.2
+  interpolate_mode: bilinear
+
+trainer:
+  arch: inceptionv3           # help='choose form "resnet50", "densenet121", "inceptionv3", "mobilenetv2"'
+  lr: 0.1
+  wd: 0.0005
+  epoch: 200
+  scheduler: cosineannealinglr #help='choose from "multisteplr", "cosineannealinglr", "steplr"
+  milestone: 0
+  resume_path: ''
+  checkpoint_path: ''
+  data_path: '/home/xw221/course_projects/ECE588/data/imagewoof2/'
+  seed: 42
+  
+data:
+  name: imagewoof2
+  resizer_image_size: 300
+  image_size: 224
+  num_classes: 10
+  batch_size: 64
+  num_workers: 8
+
+hydra:
+  run:
+    dir: ../outputs/${now:%Y-%m-%d}/${now:%H-%M-%S}

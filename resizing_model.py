@@ -1,9 +1,11 @@
 from omegaconf import DictConfig
-
+import sys
 import torch.nn as nn
 import torch.nn.functional as F
 from functools import partial
-from models import resnet, densenet, mobilenet, googlenet
+import torchvision
+# from models import resnet, densenet, mobilenet, googlenet
+import models
 
 class ResBlock(nn.Module):
     def __init__(self, channel_size: int, negative_slope: float = 0.2):
@@ -75,21 +77,37 @@ class Resizer(nn.Module):
 
         return out
 
-def get_base_model(arch='resnet50', in_channels=3, num_classes=10):
+def get_base_model(dataset, arch='resnet50', in_channels=3, num_classes=10):
     assert arch in ['resnet50', 'densenet121', 'inceptionv3', 'mobilenetv2'], 'arch {} not supported'.format(arch)
-    if arch == 'resnet50':
-        base_model = resnet.ResNet50()
-        base_model.conv1 = nn.Conv2d(in_channels, 64, kernel_size=3,
-                               stride=1, padding=1, bias=False)
-    elif arch == 'densenet121':
-        base_model = densenet.DenseNet121()
-        base_model.conv1 = nn.Conv2d(in_channels, 64, kernel_size=3, stride=1, padding=1, bias=False)
-    elif arch == 'inceptionv3':
-        base_model = googlenet.GoogLeNet()
-        base_model.pre_layers[0] = nn.Conv2d(in_channels, 192, kernel_size=3, padding=1)
-    elif arch == 'mobilenetv2':
-        base_model = mobilenet.MobileNetV2()
-        base_model.conv1 = nn.Conv2d(in_channels, 32, kernel_size=3, stride=1, padding=1, bias=False)
+    if dataset == 'cifar10':
+        if arch == 'resnet50':
+            base_model = models.resnet.ResNet50()
+            base_model.conv1 = nn.Conv2d(in_channels, 64, kernel_size=3,
+                                stride=1, padding=1, bias=False)
+        elif arch == 'densenet121':
+            base_model = models.densenet.DenseNet121()
+            base_model.conv1 = nn.Conv2d(in_channels, 64, kernel_size=3, stride=1, padding=1, bias=False)
+        elif arch == 'inceptionv3':
+            base_model = models.googlenet.GoogLeNet()
+            base_model.pre_layers[0] = nn.Conv2d(in_channels, 192, kernel_size=3, padding=1)
+        elif arch == 'mobilenetv2':
+            base_model = models.mobilenet.MobileNetV2()
+            base_model.conv1 = nn.Conv2d(in_channels, 32, kernel_size=3, stride=1, padding=1, bias=False)
+
+    elif dataset.startswith('image'):
+        if arch == 'resnet50':
+            base_model = torchvision.models.resnet50(num_classes=num_classes)
+            base_model.conv1 = nn.Conv2d(in_channels, 64, kernel_size=7, stride=2,
+                            padding=3, bias=False)
+        elif arch == 'densenet121':
+            base_model = torchvision.models.densenet121(num_classes=num_classes)
+        elif arch == 'inceptionv3':
+            # base_model = models_imagenet.googlenet.GoogLeNet()
+            base_model = torchvision.models.GoogLeNet(num_classes=num_classes)
+            # base_model.pre_layers[0] = nn.Conv2d(in_channels, 192, kernel_size=3, padding=1)
+        elif arch == 'mobilenetv2':
+            base_model = torchvision.models.mobilenet_v2(num_classes=num_classes)
+
     return base_model
 
 def get_model(name, cfg):
@@ -100,7 +118,7 @@ def get_model(name, cfg):
             in_channels = cfg.resizer.out_channels
         else:
             in_channels = cfg.resizer.in_channels
-        return get_base_model(cfg.trainer.arch, in_channels, cfg.data.num_classes)
+        return get_base_model(cfg.data.name, cfg.trainer.arch, in_channels, cfg.data.num_classes)
     else:
         raise ValueError(f"Incorrect name={name}. The valid options are"
                          "('resizer', 'base_model')")
