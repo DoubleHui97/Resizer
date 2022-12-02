@@ -6,10 +6,19 @@ This repository contains the PyTorch implementation of the Resizer model propose
 In summary, a CNN model is used to learn data augmentation. The augmented image is passed to a standard image classification model (e.g. ResNet-50) for the downstream task (e.g. image classification).
 
 ## To retrain the models:
+
+For CIFAR-10:
 ```
 python run.py
 ```
 Arguments are stored in the config_run.yaml file
+
+For ImageWoof:
+```
+python run_imagewoof.py
+```
+Arguments are stored in the config_run_imagewoof.yaml file
+
 <!-- ## Table of Contents
 - [Results](#results)
 - [Details of config file](#details-of-config-file)
