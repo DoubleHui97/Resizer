@@ -20,7 +20,7 @@ from collections import OrderedDict
 
 @hydra.main(config_name="config_run_imagewoof")
 def main(cfg: DictConfig):
-    os.environ['CUDA_VISIBLE_DEVICES'] = '2,3'
+    os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 
     # parser = argparse.ArgumentParser(description='CIFAR10 Training')
     # parser.add_argument('--arch', default='resnet50', help='recog model architecture')
@@ -187,7 +187,7 @@ def main(cfg: DictConfig):
 
         print('train loss: {:.3f}, train acc: {:.3f}'.format(train_loss/(batch_idx+1), 100.*correct/total))
 
-
+        
     def test(epoch, best_acc):
         # global best_acc
         net.eval()
