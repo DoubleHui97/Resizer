@@ -19,6 +19,19 @@ python run_imagewoof.py
 ```
 Arguments are stored in the config_run_imagewoof.yaml file
 
+## To obtain output figures from the resizing model:
+
+For CIFAR-10:
+```
+python inference_cifar10.py
+```
+
+For ImageWoof:
+```
+python inference_imagewoof.py
+```
+
+
 <!-- ## Table of Contents
 - [Results](#results)
 - [Details of config file](#details-of-config-file)
