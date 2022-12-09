@@ -12,7 +12,7 @@ resizer:
   interpolate_mode: bilinear
 
 trainer:
-  arch: inceptionv3            # help='choose form "resnet50", "densenet121", "inceptionv3", "mobilenetv2"'
+  arch: resnet50            # help='choose form "resnet50", "densenet121", "inceptionv3", "mobilenetv2"'
   lr: 0.1
   wd: 0.0005
   epoch: 200

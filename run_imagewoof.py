@@ -16,6 +16,7 @@ import argparse
 # from models_imagenet import resnet#, densenet, googlenet, mobilenet
 from resizing_model import classification_model
 from utils import progress_bar
+from collections import OrderedDict
 
 @hydra.main(config_name="config_run_imagewoof")
 def main(cfg: DictConfig):
@@ -57,7 +58,7 @@ def main(cfg: DictConfig):
     seed_torch(cfg.trainer.seed)
 
 
-    CKPT_ROOT = '/home/xw221/course_projects/ECE588/'
+    CKPT_ROOT = '/home/xw221/Resizer/'
     global best_acc
     # Data
     print('==> Preparing data..')
@@ -94,6 +95,14 @@ def main(cfg: DictConfig):
         print('Model size: {:.2f}M'.format(sum(p.numel() for p in net.parameters()) / 1e6))
         print('Resizer model size: {:.2f}M'.format(sum(p.numel() for p in net.resizer_model.parameters()) / 1e6))
         print('Base model size: {:.2f}M'.format(sum(p.numel() for p in net.base_model.parameters()) / 1e6))
+        state_dict = torch.load(CKPT_ROOT + 'ckpt/imagewoof2/checkpoint_imagewoof.pth')
+        state_dict = state_dict['net']
+        # new_dict = OrderedDict()
+        # for k, v in state_dict.items():
+        #     name = k[7:]
+        #     new_dict[name] = v
+        # net.load_state_dict(new_dict)
+        net.load_state_dict(state_dict)
     else:
         print('Base model size: {:.2f}M'.format(sum(p.numel() for p in net.base_model.parameters()) / 1e6))
 
@@ -149,14 +158,29 @@ def main(cfg: DictConfig):
             inputs, targets = inputs.to(device), targets.to(device)
             optimizer.zero_grad()
             outputs = net(inputs)
-            loss = criterion(outputs, targets)
-            loss.backward()
-            optimizer.step()
+            if cfg.trainer.arch != 'inceptionv3':
+                loss = criterion(outputs, targets)
+                loss.backward()
+                optimizer.step()
 
-            train_loss += loss.item()
-            _, predicted = outputs.max(1)
-            total += targets.size(0)
-            correct += predicted.eq(targets).sum().item()
+                train_loss += loss.item()
+                _, predicted = outputs.max(1)
+                total += targets.size(0)
+                correct += predicted.eq(targets).sum().item()
+            else:
+                loss_aux3 = 0.4 * criterion(outputs[0], targets)
+                loss_aux2 = 0.3 * criterion(outputs[1], targets)
+                loss_aux1 = 0.3 * criterion(outputs[2], targets)
+                loss = loss_aux3 + loss_aux2 + loss_aux1
+
+                loss.backward()
+                optimizer.step()
+
+                train_loss += loss.item()
+                _, predicted = outputs[0].max(1)
+                total += targets.size(0)
+                correct += predicted.eq(targets).sum().item()
+            
 
             progress_bar(batch_idx, len(trainloader), 'Loss: %.3f | Acc: %.3f%% (%d/%d)'
                          % (train_loss/(batch_idx+1), 100.*correct/total, correct, total))

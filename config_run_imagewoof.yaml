@@ -1,4 +1,4 @@
-apply_resizer_model: false
+apply_resizer_model: true
 apply_oss_resizer: false
 oss_resizer:
   interpolate_mode: bilinear
@@ -12,7 +12,7 @@ resizer:
   interpolate_mode: bilinear
 
 trainer:
-  arch: inceptionv3           # help='choose form "resnet50", "densenet121", "inceptionv3", "mobilenetv2"'
+  arch: resnet50         # help='choose form "resnet50", "densenet121", "inceptionv3", "mobilenetv2"'
   lr: 0.1
   wd: 0.0005
   epoch: 200
@@ -20,7 +20,7 @@ trainer:
   milestone: 0
   resume_path: ''
   checkpoint_path: ''
-  data_path: '/home/xw221/course_projects/ECE588/data/imagewoof2/'
+  data_path: '/home/xw221/Resizer/data/imagewoof2/'
   seed: 42
   
 data:
@@ -28,7 +28,7 @@ data:
   resizer_image_size: 300
   image_size: 224
   num_classes: 10
-  batch_size: 64
+  batch_size: 300
   num_workers: 8
 
 hydra:
